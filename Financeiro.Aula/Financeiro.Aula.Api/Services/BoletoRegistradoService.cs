@@ -2,22 +2,27 @@
 
 namespace Financeiro.Aula.Api.Services
 {
-    public class BoletoRegistradoService : BackgroundService
+    public class BoletoRegistradoService : IHostedService
     {
-        private readonly IServiceScopeFactory _scopeFactory;
+        private readonly IBoletoRegistradoQueueConsumer _queue;
 
         public BoletoRegistradoService(IServiceScopeFactory scopeFactory)
         {
-            _scopeFactory = scopeFactory;
+            using var scope = scopeFactory.CreateScope();
+
+            _queue = scope.ServiceProvider.GetRequiredService<IBoletoRegistradoQueueConsumer>();
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        public Task StartAsync(CancellationToken cancellationToken)
         {
-            using var scope = _scopeFactory.CreateScope();
+            _queue.Execute(cancellationToken);
 
-            var boletoRegistradoQueue = scope.ServiceProvider.GetRequiredService<IBoletoRegistradoQueueConsumer>();
+            return Task.CompletedTask;
+        }
 
-            boletoRegistradoQueue.Execute(stoppingToken);
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            _queue.Close();
 
             return Task.CompletedTask;
         }
