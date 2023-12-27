@@ -4,6 +4,7 @@ namespace Financeiro.Boleto.Domain.Interfaces.Repositories
 {
     public interface IParametroBoletoRepository
     {
-        Task<ParametroBoleto?> ObterParametrosBoleto();
+        Task<ParametroBoleto> ObterParametrosBoleto();
+        Task<int> IncrementarNumeroBoletoAtual();
     }
 }

@@ -46,5 +46,10 @@ namespace Financeiro.Boleto.Domain.Entities
         {
             return $"{(++NumeroBoletoAtual).ToString().PadLeft(11, '0')}-P";
         }
+
+        public void IncrementarNumeroBoletoAtual()
+        {
+            NumeroBoletoAtual++;
+        }
     }
 }
