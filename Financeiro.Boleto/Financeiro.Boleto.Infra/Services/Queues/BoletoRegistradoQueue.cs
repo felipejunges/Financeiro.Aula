@@ -33,12 +33,28 @@ namespace Financeiro.Boleto.Infra.Services.Queues
 
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
+
+            _channel.ExchangeDeclare(_configuration.Queues.DeadeLetterExchange, ExchangeType.Fanout);
+            _channel.QueueDeclare(_configuration.Queues.DeadLetterQueue, true, false, false, null);
+            _channel.QueueBind(_configuration.Queues.DeadLetterQueue, _configuration.Queues.DeadeLetterExchange, "");
+
+            var arguments = new Dictionary<string, object>()
+            {
+                { "x-dead-letter-exchange", _configuration.Queues.DeadeLetterExchange }
+            };
+
             _channel.QueueDeclare(
                         queue: _configuration.Queues.BoletoRegistrado,
                         durable: true,
                         exclusive: false,
                         autoDelete: false,
-                        arguments: null);
+                        arguments: arguments);
+        }
+
+        public void Close()
+        {
+            _channel.Close();
+            _connection.Close();
         }
 
         public Task EnviarFilaBoletoRegistrado(BoletoRegistradoDto boletoDto)
