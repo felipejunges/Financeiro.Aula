@@ -12,5 +12,7 @@
     {
         public string RegistrarBoleto { get; set; } = string.Empty;
         public string BoletoRegistrado { get; set; } = string.Empty;
+        public string DeadLetterQueue { get; set; } = string.Empty;
+        public string DeadeLetterExchange { get; set; } = string.Empty;
     }
 }
