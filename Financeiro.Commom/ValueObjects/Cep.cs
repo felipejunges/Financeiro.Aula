@@ -4,40 +4,43 @@ namespace Financeiro.Commom.ValueObjects
 {
     public class Cep : IComparable<Cep>
     {
-        public Cep(string valor)
+        private readonly string _numero = null!;
+
+        public string Numero => _numero;
+
+        public string Formatado => !EhValido ? throw new InvalidOperationException("O CEP nao é valido") : $"{_numero[..5]}-{_numero[5..3]}";
+
+        public Cep(string? numero)
         {
-            _somenteNumeros = valor.Replace("-", "").Replace(".", "");
+            if (numero == null)
+            {
+                _numero = string.Empty;
+                return;
+            }
+
+            _numero = Regex.Replace(numero, @"[^0-9]", "");
         }
 
-        private readonly string _somenteNumeros;
+        public bool EhValido => ValidarCEP();
 
-        public string SomenteNumeros => _somenteNumeros;
-
-        public string Formatado =>
-            _somenteNumeros.Length != 8
-                ? _somenteNumeros
-                : $"{_somenteNumeros[0..5]}-{_somenteNumeros[5..3]}";
-
-        public bool Valido => Validar(_somenteNumeros);
-
-        public override string ToString() => Formatado;
-
-        private static bool Validar(string cep)
+        private bool ValidarCEP()
         {
             Regex regex = new Regex(@"^\d{8}$");
-            return regex.IsMatch(cep);
+            return regex.IsMatch(_numero);
+        }
+
+        public override string ToString()
+        {
+            return Numero;
         }
 
         public int CompareTo(Cep? other)
         {
-            if (other == null) return 0;
+            if (other == null) throw new ArgumentNullException(nameof(other));
 
-            return other.SomenteNumeros.CompareTo(SomenteNumeros);
+            return other.Numero.CompareTo(Numero);
         }
 
-        public static implicit operator Cep(string cep)
-        {
-            return new Cep(cep);
-        }
+        public static implicit operator Cep(string? numero) => new Cep(numero);
     }
 }
