@@ -34,6 +34,8 @@ services:
       - "5050:5050"
     depends_on:
       - db
+    volumes:
+      - $APPDATA/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
     networks:
       - app
 

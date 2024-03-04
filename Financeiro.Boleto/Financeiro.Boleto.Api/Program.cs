@@ -33,8 +33,10 @@ builder.Services.AddHostedService<RegistrarBoletoService>();
 
 builder.Services.AddHttpClient<IGeradorBoletoApiService, BoletoCloudApiService>(client =>
 {
-    var token = $"{builder.Configuration["ApiBoletoCloud:ApiKey"]}:token";
+    var apiKey = builder.Configuration["ApiBoletoCloud:ApiKey"] ?? throw new NullReferenceException($"A 'ApiBoletoCloud:BaseAddress' do BoletoCloud deve ser configurado no appsettings.json");
 
+    var token = $"{apiKey}:token";
+    
     var boletoCloudUrl = builder.Configuration["ApiBoletoCloud:BaseAddress"] ?? throw new NullReferenceException("'ApiBoletoCloud:BaseAddress' deve ser configurado no appsettings.json");
 
     client.BaseAddress = new Uri(boletoCloudUrl);
