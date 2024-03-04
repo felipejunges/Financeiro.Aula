@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Financeiro.Common\Financeiro.Common.csproj" />
     <ProjectReference Include="..\Financeiro.Boleto.Domain\Financeiro.Boleto.Domain.csproj" />
   </ItemGroup>
 

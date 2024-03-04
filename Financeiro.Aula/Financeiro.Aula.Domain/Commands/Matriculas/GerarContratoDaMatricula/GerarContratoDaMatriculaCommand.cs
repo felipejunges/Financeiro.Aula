@@ -1,5 +1,5 @@
 using Financeiro.Aula.Domain.Entities;
-using Financeiro.Aula.Domain.ValueObjects;
+using Financeiro.Common.ValueObjects;
 using MediatR;
 
 namespace Financeiro.Aula.Domain.Commands.Matriculas.GerarContratoDaMatricula

@@ -1,6 +1,6 @@
 ﻿using Financeiro.Aula.Domain.Configurations;
-using Financeiro.Aula.Domain.DTOs;
 using Financeiro.Aula.Domain.Interfaces.Queues;
+using Financeiro.Common.Events;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -57,15 +57,15 @@ namespace Financeiro.Aula.Infra.Services.Queues
             _connection.Close();
         }
 
-        public Task EnviarParcelaFilaGerarBoleto(ParcelaGerarBoletoDto parcelaDto)
+        public Task EnviarParcelaFilaGerarBoleto(GerarBoletoEvent boletoEvent)
         {
-            string message = JsonConvert.SerializeObject(parcelaDto);
+            string message = JsonConvert.SerializeObject(boletoEvent);
 
             var body = Encoding.UTF8.GetBytes(message);
 
             _logger.LogInformation(
                     "Enviado solicitação de boleto: {boleto} para fila: {fila} - Mensagem: {message}",
-                    parcelaDto.TokenRetorno,
+                    boletoEvent.TokenRetorno,
                     _configuration.Queues.RegistrarBoleto,
                     message);
 

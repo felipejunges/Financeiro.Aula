@@ -1,5 +1,5 @@
 using Financeiro.Aula.Domain.Interfaces.Services.CEPs;
-using Financeiro.Aula.Domain.ValueObjects;
+using Financeiro.Common.ValueObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,8 +1,8 @@
-using System.Net.Http.Json;
 using Financeiro.Aula.Domain.Interfaces.ApiServices;
-using Financeiro.Aula.Domain.ValueObjects;
 using Financeiro.Aula.Infra.Models.Responses;
+using Financeiro.Common.ValueObjects;
 using Microsoft.Extensions.Logging;
+using System.Net.Http.Json;
 
 namespace Financeiro.Aula.Infra.Services.ApiServices
 {

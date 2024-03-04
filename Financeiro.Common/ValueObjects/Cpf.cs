@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Financeiro.Commom.ValueObjects
+namespace Financeiro.Common.ValueObjects
 {
     public class Cpf : IComparable<Cpf>
     {

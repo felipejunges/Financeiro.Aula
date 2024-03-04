@@ -1,6 +1,7 @@
-﻿using Financeiro.Aula.Domain.DTOs;
+﻿using Financeiro.Aula.Domain.Entities;
 using Financeiro.Aula.Domain.Interfaces.Queues;
 using Financeiro.Aula.Domain.Interfaces.Repositories;
+using Financeiro.Common.Events;
 using MediatR;
 
 namespace Financeiro.Aula.Domain.Commands.Parcelas.GerarBoletoParcela
@@ -35,9 +36,23 @@ namespace Financeiro.Aula.Domain.Commands.Parcelas.GerarBoletoParcela
             parcela.GerarNovoTokenBoleto();
             await _parcelaRepository.AlterarParcela(parcela);
 
-            await _boletoQueue.EnviarParcelaFilaGerarBoleto(new ParcelaGerarBoletoDto(parcela));
+            await _boletoQueue.EnviarParcelaFilaGerarBoleto(CriarEvento(parcela));
 
             return (true, string.Empty);
+        }
+
+        private static GerarBoletoEvent CriarEvento(Parcela parcela)
+        {
+            return new GerarBoletoEvent(
+                tokenRetorno: parcela.TokenBoleto!.Value,
+                identificadorContrato: parcela.Contrato!.Id.ToString(),
+                dataVencimento: parcela.DataVencimento,
+                valor: parcela.Valor,
+                cliente: new GerarBoletoCliente(
+                    parcela.Contrato!.Cliente!.Nome,
+                    parcela.Contrato!.Cliente!.Cpf,
+                    parcela.Contrato!.Cliente!.Endereco)
+            );
         }
     }
 }

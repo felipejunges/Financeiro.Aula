@@ -1,7 +1,7 @@
 using Financeiro.Aula.Domain.Configurations;
-using Financeiro.Aula.Domain.DTOs;
 using Financeiro.Aula.Domain.Interfaces.DomainServices;
 using Financeiro.Aula.Domain.Interfaces.Queues;
+using Financeiro.Common.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -81,7 +81,7 @@ namespace Financeiro.Aula.Infra.Services.Queues
             var contentArray = eventArgs.Body.ToArray();
             var contentString = Encoding.UTF8.GetString(contentArray);
 
-            var boletoDto = JsonConvert.DeserializeObject<BoletoRegistradoDto>(contentString);
+            var boletoDto = JsonConvert.DeserializeObject<BoletoRegistradoEvent>(contentString);
 
             _logger.LogInformation(
                     "Recebido retorno do boleto: {boleto} na fila: {fila} - Mensagem: {contentString}",

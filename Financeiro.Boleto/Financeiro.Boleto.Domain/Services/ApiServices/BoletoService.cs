@@ -1,8 +1,8 @@
-﻿using Financeiro.Boleto.Domain.DTOs;
-using Financeiro.Boleto.Domain.Entities;
+﻿using Financeiro.Boleto.Domain.Entities;
 using Financeiro.Boleto.Domain.Interfaces.ApiServices;
 using Financeiro.Boleto.Domain.Interfaces.Repositories;
 using Financeiro.Boleto.Domain.Interfaces.Services;
+using Financeiro.Common.Events;
 using Microsoft.Extensions.Logging;
 
 namespace Financeiro.Boleto.Domain.Services.ApiServices
@@ -40,14 +40,14 @@ namespace Financeiro.Boleto.Domain.Services.ApiServices
             return Convert.ToBase64String(pdf);
         }
 
-        public async Task<Entities.Boleto?> RegistrarBoleto(BoletoGerarDto boletoDto)
+        public async Task<Entities.Boleto?> RegistrarBoleto(GerarBoletoEvent boletoEvent)
         {
             var numeroBoleto = ObterProximoNumeroBoleto();
 
             if (numeroBoleto is null)
                 return null;
 
-            var tokenBoleto = await _geradorBoletoApiService.GerarTokenBoleto(boletoDto, numeroBoleto);
+            var tokenBoleto = await _geradorBoletoApiService.GerarTokenBoleto(boletoEvent, numeroBoleto);
 
             if (tokenBoleto is null)
                 return null;
@@ -55,11 +55,11 @@ namespace Financeiro.Boleto.Domain.Services.ApiServices
             var boleto = new Entities.Boleto(
                     numeroBoleto,
                     tokenBoleto,
-                    boletoDto.DataVencimento,
-                    boletoDto.Valor,
-                    boletoDto.Cliente.Nome,
-                    boletoDto.Cliente.Cpf,
-                    boletoDto.Cliente.Endereco);
+                    boletoEvent.DataVencimento,
+                    boletoEvent.Valor,
+                    boletoEvent.Cliente.Nome,
+                    boletoEvent.Cliente.Cpf,
+                    boletoEvent.Cliente.Endereco);
 
             await _boletoRepository.IncluirBoleto(boleto);
 

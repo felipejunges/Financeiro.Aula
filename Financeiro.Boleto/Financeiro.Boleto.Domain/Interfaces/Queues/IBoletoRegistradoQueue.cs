@@ -1,9 +1,9 @@
-﻿using Financeiro.Boleto.Domain.DTOs;
+﻿using Financeiro.Common.Events;
 
 namespace Financeiro.Boleto.Domain.Interfaces.Queues
 {
     public interface IBoletoRegistradoQueue
     {
-        Task EnviarFilaBoletoRegistrado(BoletoRegistradoDto boletoDto);
+        Task EnviarFilaBoletoRegistrado(BoletoRegistradoEvent boletoEvent);
     }
 }

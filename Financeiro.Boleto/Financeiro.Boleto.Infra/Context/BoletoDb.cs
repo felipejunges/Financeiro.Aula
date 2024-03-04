@@ -1,5 +1,4 @@
 ﻿using Financeiro.Boleto.Domain.Entities;
-using Financeiro.Boleto.Domain.ValueObjects;
 using Financeiro.Boleto.Infra.Context.Mappers;
 using Microsoft.EntityFrameworkCore;
 

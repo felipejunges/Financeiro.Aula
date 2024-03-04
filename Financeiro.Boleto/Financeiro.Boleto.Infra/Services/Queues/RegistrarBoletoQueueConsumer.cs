@@ -1,7 +1,7 @@
 ﻿using Financeiro.Boleto.Domain.Configuration;
-using Financeiro.Boleto.Domain.DTOs;
 using Financeiro.Boleto.Domain.Interfaces.Queues;
 using Financeiro.Boleto.Domain.Interfaces.Services;
+using Financeiro.Common.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -84,7 +84,7 @@ namespace Financeiro.Boleto.Infra.Services.Queues
             var contentArray = eventArgs.Body.ToArray();
             var contentString = Encoding.UTF8.GetString(contentArray);
 
-            var boletoDto = JsonConvert.DeserializeObject<BoletoGerarDto>(contentString);
+            var boletoDto = JsonConvert.DeserializeObject<GerarBoletoEvent>(contentString);
 
             _logger.LogInformation(
                     "Recebida solicitação do boleto: {boleto} na fila: {fila} - Mensagem: {contentString}",
@@ -112,7 +112,7 @@ namespace Financeiro.Boleto.Infra.Services.Queues
 
             _channel.BasicAck(eventArgs.DeliveryTag, false);
 
-            await _boletoRegistradoQueue.EnviarFilaBoletoRegistrado(new BoletoRegistradoDto(boletoDto.TokenRetorno, boleto.Id.ToString()));
+            await _boletoRegistradoQueue.EnviarFilaBoletoRegistrado(new BoletoRegistradoEvent(boletoDto.TokenRetorno, boleto.Id.ToString()));
         }
     }
 }

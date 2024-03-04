@@ -1,4 +1,4 @@
-using Financeiro.Aula.Domain.ValueObjects;
+using Financeiro.Common.ValueObjects;
 
 namespace Financeiro.Aula.Domain.DTOs
 {

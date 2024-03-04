@@ -1,4 +1,4 @@
-﻿using Financeiro.Boleto.Domain.ValueObjects;
+﻿using Financeiro.Common.ValueObjects;
 
 namespace Financeiro.Boleto.Domain.Entities
 {

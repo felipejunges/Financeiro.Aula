@@ -1,7 +1,7 @@
 ﻿using Financeiro.Boleto.Domain.Entities;
 using Financeiro.Boleto.Domain.Interfaces.Repositories;
-using Financeiro.Boleto.Domain.ValueObjects;
 using Financeiro.Boleto.Infra.Context;
+using Financeiro.Common.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace Financeiro.Boleto.Infra.Repositories

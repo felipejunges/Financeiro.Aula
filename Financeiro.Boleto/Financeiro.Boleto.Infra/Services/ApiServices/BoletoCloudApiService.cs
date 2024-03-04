@@ -1,7 +1,7 @@
-﻿using Financeiro.Boleto.Domain.DTOs;
-using Financeiro.Boleto.Domain.Entities;
+﻿using Financeiro.Boleto.Domain.Entities;
 using Financeiro.Boleto.Domain.Interfaces.ApiServices;
 using Financeiro.Boleto.Domain.Interfaces.Repositories;
+using Financeiro.Common.Events;
 using Microsoft.Extensions.Logging;
 
 namespace Financeiro.Boleto.Infra.Services.ApiServices
@@ -37,7 +37,7 @@ namespace Financeiro.Boleto.Infra.Services.ApiServices
             return await response.Content.ReadAsByteArrayAsync();
         }
 
-        public async Task<string?> GerarTokenBoleto(BoletoGerarDto boleto, string numeroBoleto)
+        public async Task<string?> GerarTokenBoleto(GerarBoletoEvent boleto, string numeroBoleto)
         {
             var body = MontarBodyDaParcela(boleto, numeroBoleto);
 
@@ -65,7 +65,7 @@ namespace Financeiro.Boleto.Infra.Services.ApiServices
             }
         }
 
-        private Dictionary<string, string> MontarBodyDaParcela(BoletoGerarDto boleto, string numeroBoleto)
+        private Dictionary<string, string> MontarBodyDaParcela(GerarBoletoEvent boleto, string numeroBoleto)
         {
             var cliente = boleto.Cliente;
 

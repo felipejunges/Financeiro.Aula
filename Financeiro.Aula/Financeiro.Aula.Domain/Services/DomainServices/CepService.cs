@@ -1,7 +1,7 @@
 using Financeiro.Aula.Domain.Interfaces.ApiServices;
 using Financeiro.Aula.Domain.Interfaces.Cache;
 using Financeiro.Aula.Domain.Interfaces.Services.CEPs;
-using Financeiro.Aula.Domain.ValueObjects;
+using Financeiro.Common.ValueObjects;
 
 namespace Financeiro.Aula.Domain.Services.DomainServices
 {

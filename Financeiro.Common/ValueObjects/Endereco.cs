@@ -1,4 +1,4 @@
-﻿namespace Financeiro.Aula.Domain.ValueObjects
+namespace Financeiro.Common.ValueObjects
 {
     public class Endereco
     {
@@ -15,10 +15,6 @@
         public string Municipio { get; private set; }
 
         public string Uf { get; private set; }
-
-        // private Endereco() : this(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty)
-        // {
-        // }
 
         public Endereco(string cep, string logradouro, string numero, string? complemento, string bairro, string municipio, string uf)
         {
