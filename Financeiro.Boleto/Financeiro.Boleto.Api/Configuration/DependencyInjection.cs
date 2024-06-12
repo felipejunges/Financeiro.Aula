@@ -57,6 +57,8 @@ namespace Financeiro.Boleto.Api.Configuration
                     x.SaveToken = true;
                     x.TokenValidationParameters = new TokenValidationParameters
                     {
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero,
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(secret),
                         ValidateIssuer = false,
