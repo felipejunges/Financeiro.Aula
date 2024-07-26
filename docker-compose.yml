@@ -8,10 +8,14 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5112:5112"
+      - "5113:5113"
     depends_on:
       - db
+      - rabbitmq
     networks:
       - app
+    volumes:
+      - C:/Users/Felipe/.aspnet/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
 
   aula-api:
     container_name: aula-api
@@ -20,10 +24,14 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5000:5000"
+      - "5001:5001"
     depends_on:
       - db
+      - rabbitmq
     networks:
       - app
+    volumes:
+      - C:/Users/Felipe/.aspnet/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
 
   boleto-api:
     container_name: boleto-api
@@ -32,10 +40,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5050:5050"
+      - "5051:5051"
     depends_on:
       - db
+      - rabbitmq
     volumes:
       - $APPDATA/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - C:/Users/Felipe/.aspnet/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
     networks:
       - app
 

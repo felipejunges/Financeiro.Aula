@@ -33,11 +33,10 @@ builder.Services.AddHostedService<RegistrarBoletoService>();
 
 builder.Services.AddHttpClient<IGeradorBoletoApiService, BoletoCloudApiService>(client =>
 {
-    var apiKey = builder.Configuration["ApiBoletoCloud:ApiKey"] ?? throw new NullReferenceException($"A 'ApiBoletoCloud:BaseAddress' do BoletoCloud deve ser configurado no appsettings.json");
+    var boletoCloudUrl = builder.Configuration["ApiBoletoCloud:BaseAddress"] ?? throw new NullReferenceException("A chave 'ApiBoletoCloud:BaseAddress' deve ser configurada no appsettings.json");
+    var apiKey = builder.Configuration["ApiBoletoCloud:ApiKey"] ?? throw new NullReferenceException($"A chave 'ApiBoletoCloud:ApiKey' deve ser configurada no appsettings.json");
 
     var token = $"{apiKey}:token";
-    
-    var boletoCloudUrl = builder.Configuration["ApiBoletoCloud:BaseAddress"] ?? throw new NullReferenceException("'ApiBoletoCloud:BaseAddress' deve ser configurado no appsettings.json");
 
     client.BaseAddress = new Uri(boletoCloudUrl);
     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes(token)));
@@ -95,13 +94,13 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
-//app.UseHttpsRedirection();
+if (app.Environment.IsProduction())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseCors(MyAllowSpecificOrigins);
 

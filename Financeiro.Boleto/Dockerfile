@@ -10,11 +10,14 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app ./
 
-ENV ASPNETCORE_URLS=http://+:5050
-ENV ASPNETCORE_ENVIRONMENT=Development
+ENV ASPNETCORE_URLS=http://+:5050;https://+:5051
+ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_Kestrel__Certificates__Default__Password=teste123
+ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
 ENV TZ=America/Sao_Paulo
 
 EXPOSE 5050
+EXPOSE 5051
 
 ENTRYPOINT ["dotnet", "Financeiro.Boleto.Api.dll"]
 
